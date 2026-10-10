@@ -33,7 +33,7 @@ details{border-top:1px solid #1b3a2f;padding:8px 0}summary{cursor:pointer;min-he
 table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:6px 4px;text-align:left;border-bottom:1px solid #1b3a2f}.sc{overflow-x:auto}
 @media(prefers-reduced-motion:no-preference){.live b{transition:transform .12s}}
 #timer-overlay{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;width:100%;height:100vh;height:100dvh;padding:calc(20px + env(safe-area-inset-top,0px)) 20px calc(20px + env(safe-area-inset-bottom,0px));background:radial-gradient(ellipse at 20% 0,#14382b,transparent 55%),radial-gradient(ellipse at 90% 30%,#2a1b4d,transparent 55%),var(--bg);text-align:center;overflow:auto}
-#timer-overlay.done{display:none}.timer-card{width:min(100%,900px);margin:auto;padding:clamp(20px,5vw,48px);border:1px solid var(--c);border-radius:clamp(18px,4vw,32px);background:linear-gradient(180deg,#102a30,#0c1d17);box-shadow:0 0 45px #4fd8ff20}
+#timer-overlay.done{display:none}#timer-again{position:fixed;right:14px;bottom:94px;z-index:20;display:none;min-height:48px;border:1px solid var(--c);background:#102a30;color:var(--tx);box-shadow:0 0 18px #4fd8ff22}#timer-again.show{display:block}.timer-card{width:min(100%,900px);margin:auto;padding:clamp(20px,5vw,48px);border:1px solid var(--c);border-radius:clamp(18px,4vw,32px);background:linear-gradient(180deg,#102a30,#0c1d17);box-shadow:0 0 45px #4fd8ff20}
 .timer-label{font-size:clamp(13px,2vw,20px);letter-spacing:.16em;color:var(--mu);text-transform:uppercase}
 .timer-display{font-variant-numeric:tabular-nums;font-size:clamp(100px,27vw,240px);line-height:1.02;font-weight:900;color:var(--c);margin:clamp(20px,5vh,48px) 0;text-shadow:0 0 30px #4fd8ff30}
 .timer-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}.timer-actions button{min-width:min(220px,100%);min-height:60px;font-size:clamp(16px,3vw,22px)}.timer-actions button:disabled{opacity:.45;cursor:not-allowed}
@@ -50,7 +50,7 @@ body.timer-locked{overflow:hidden}
   <div class="timer-instructions">2 minutos e 30 segundos · Deixe esta tela aberta durante a partida.</div>
  </div>
 </section>
-<main id="app"></main><nav id="nav" class="hide"></nav><div id="toast"></div>
+<main id="app"></main><nav id="nav" class="hide"></nav><button id="timer-again" type="button">⏱ Nova contagem (2:30)</button><div id="toast"></div>
 <script>
 const KEY='rabbitech.bioglow.v1',$=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 // ---- Scoring model (values from the official Game Missions + Rulebook PDFs) ----
@@ -91,7 +91,7 @@ let view='match',I=blank(),info={label:'',opp:'',type:'Treino'};
 // Cronômetro em tela inteira: a pontuação só é liberada ao terminar os 150 segundos.
 const TIMER_TOTAL=150000;
 let timerRemaining=TIMER_TOTAL,timerStartedAt=0,timerInterval=null,timerRunning=false,timerHasStarted=false;
-const timerOverlay=$('#timer-overlay'),timerDisplay=$('#timer-display'),timerStart=$('#timer-start'),timerPause=$('#timer-pause'),timerReset=$('#timer-reset'),timerNote=$('#timer-note');
+const timerOverlay=$('#timer-overlay'),timerDisplay=$('#timer-display'),timerStart=$('#timer-start'),timerPause=$('#timer-pause'),timerReset=$('#timer-reset'),timerNote=$('#timer-note'),timerAgain=$('#timer-again');
 document.body.classList.add('timer-locked');
 function drawTimer(){
  const ms=Math.max(0,timerRemaining),secs=Math.ceil(ms/1000),mm=Math.floor(secs/60),ss=secs%60;
@@ -101,8 +101,8 @@ function drawTimer(){
 function stopTimerInterval(){if(timerInterval!==null){clearInterval(timerInterval);timerInterval=null}}
 function finishTimer(){
  timerRemaining=0;timerRunning=false;stopTimerInterval();drawTimer();
- timerNote.textContent='Tempo encerrado! Liberando pontuação…';timerStart.disabled=true;timerPause.disabled=true;timerReset.disabled=true;
- setTimeout(()=>{timerOverlay.classList.add('done');document.body.classList.remove('timer-locked')},900);
+ timerNote.textContent='Tempo encerrado! Liberando pontuação…';timerStart.disabled=true;timerPause.disabled=true;timerReset.disabled=false;
+ setTimeout(()=>{timerOverlay.classList.add('done');document.body.classList.remove('timer-locked');timerAgain.classList.add('show')},900);
 }
 function tickTimer(){
  timerRemaining=Math.max(0,timerRemaining-(performance.now()-timerStartedAt));
@@ -132,7 +132,13 @@ timerPause.addEventListener('click',()=>{
 timerReset.addEventListener('click',()=>{
  stopTimerInterval();timerRemaining=TIMER_TOTAL;timerRunning=false;timerHasStarted=false;
  timerStart.disabled=false;timerStart.textContent='▶ Iniciar partida';timerPause.disabled=true;timerPause.textContent='⏸ Pausar';
- timerNote.textContent='Cronômetro reiniciado. A pontuação será liberada quando o tempo terminar.';drawTimer();
+ timerNote.textContent='Cronômetro reiniciado. A pontuação será liberada quando o tempo terminar.';timerOverlay.classList.remove('done');document.body.classList.add('timer-locked');timerAgain.classList.remove('show');drawTimer();
+});
+timerAgain.addEventListener('click',()=>{
+ stopTimerInterval();timerRemaining=TIMER_TOTAL;timerRunning=false;timerHasStarted=false;
+ timerStart.disabled=false;timerStart.textContent='▶ Iniciar partida';timerPause.disabled=true;timerPause.textContent='⏸ Pausar';
+ timerNote.textContent='Nova contagem pronta. A pontuação ficará bloqueada até o fim dos 2:30.';
+ timerOverlay.classList.remove('done');document.body.classList.add('timer-locked');timerAgain.classList.remove('show');drawTimer();
 });
 drawTimer();
 function toast(t){const e=$('#toast');e.className='toast';e.textContent=t;setTimeout(()=>e.className='',1800)}
