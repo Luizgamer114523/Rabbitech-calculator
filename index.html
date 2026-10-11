@@ -73,6 +73,177 @@ nav{background:rgba(8,18,15,.42)!important;-webkit-backdrop-filter:blur(18px) sa
 #timer-again{background:rgba(245,250,255,.13)!important}
 @supports not ((backdrop-filter:blur(1px))){button{background:rgba(18,40,31,.88)!important}}
 
+
+
+/* ===== RABBITECH · LIQUID GLASS + microanimações ===== */
+:root{
+ --glass:rgba(8,27,21,.54);
+ --glass-deep:rgba(3,15,11,.48);
+ --glass-line:rgba(224,255,242,.20);
+ --glass-shine:rgba(255,255,255,.13);
+ --glass-shadow:0 16px 42px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.14),inset 0 -1px 0 rgba(255,255,255,.035);
+}
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+ header, .card, nav, #timer-again, #timer-overlay .timer-card, #toast.toast {
+   -webkit-backdrop-filter:blur(22px) saturate(155%);
+   backdrop-filter:blur(22px) saturate(155%);
+ }
+}
+header{
+ background:rgba(4,17,12,.48)!important;
+ border-bottom:1px solid rgba(218,255,238,.18)!important;
+ box-shadow:0 8px 28px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.08);
+ transition:background .3s ease,border-color .3s ease;
+}
+.card{
+ position:relative;isolation:isolate;
+ background:linear-gradient(135deg,rgba(24,61,46,.63),rgba(5,23,17,.56) 48%,rgba(13,38,29,.63))!important;
+ border:1px solid var(--glass-line)!important;
+ border-radius:22px!important;
+ box-shadow:var(--glass-shadow)!important;
+ overflow:hidden;
+ transition:transform .28s cubic-bezier(.2,.75,.25,1),border-color .28s ease,box-shadow .28s ease,background .28s ease;
+}
+.card::before{
+ content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;
+ background:radial-gradient(ellipse at var(--gl-x,18%) var(--gl-y,0%),rgba(255,255,255,.105),transparent 47%),linear-gradient(132deg,rgba(255,255,255,.055),transparent 34%,rgba(79,216,255,.025) 72%,transparent);
+ opacity:.88;transition:opacity .35s ease;
+}
+.card>*{position:relative;z-index:1}
+.card h2,.card h3{ text-shadow:0 1px 12px rgba(0,0,0,.16) }
+.row{border-top-color:rgba(216,255,240,.085)!important;transition:background .22s ease,border-color .22s ease}
+.row .pts{transition:color .2s ease,text-shadow .2s ease}
+input,select{
+ background:rgba(1,13,9,.48)!important;
+ border:1px solid rgba(225,255,242,.19)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.075),0 4px 14px rgba(0,0,0,.08);
+ transition:border-color .22s ease,box-shadow .22s ease,background .22s ease,transform .22s ease;
+}
+input:focus,select:focus{
+ background:rgba(4,23,16,.72)!important;border-color:rgba(93,255,176,.65)!important;
+ box-shadow:0 0 0 3px rgba(93,255,176,.10),0 0 25px rgba(93,255,176,.12),inset 0 1px 0 rgba(255,255,255,.10)!important;
+}
+button,nav button,#timer-overlay button,#timer-again{
+ position:relative;isolation:isolate;overflow:hidden;
+ background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.055))!important;
+ color:rgba(246,255,251,.97)!important;
+ border:1px solid rgba(231,255,246,.27)!important;
+ border-radius:16px!important;
+ box-shadow:0 6px 20px rgba(0,0,0,.13),inset 0 1px 0 rgba(255,255,255,.24),inset 0 -1px 0 rgba(255,255,255,.045)!important;
+ -webkit-backdrop-filter:blur(18px) saturate(165%);
+ backdrop-filter:blur(18px) saturate(165%);
+ transition:transform .18s cubic-bezier(.2,.8,.2,1),background .22s ease,border-color .22s ease,box-shadow .22s ease,filter .22s ease!important;
+}
+button::before{
+ content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+ background:linear-gradient(115deg,rgba(255,255,255,.15),transparent 34%,transparent 66%,rgba(255,255,255,.045));
+ opacity:.78;transition:opacity .22s ease;
+}
+button>*{position:relative;z-index:1}
+button.pri,#timer-overlay button.pri{
+ background:linear-gradient(135deg,rgba(93,255,176,.30),rgba(70,202,158,.13))!important;
+ border-color:rgba(168,255,218,.42)!important;
+ box-shadow:0 7px 24px rgba(40,220,150,.10),inset 0 1px 0 rgba(255,255,255,.25)!important;
+}
+button.dng{background:linear-gradient(135deg,rgba(255,115,125,.19),rgba(255,255,255,.045))!important;border-color:rgba(255,190,195,.31)!important}
+button:active{transform:scale(.965)!important;filter:brightness(1.12);box-shadow:0 2px 8px rgba(0,0,0,.18),inset 0 1px 5px rgba(0,0,0,.13)!important}
+button:disabled{filter:saturate(.55);box-shadow:inset 0 1px 0 rgba(255,255,255,.08)!important}
+nav{
+ background:rgba(5,17,13,.51)!important;
+ border-top:1px solid rgba(225,255,243,.18)!important;
+ box-shadow:0 -8px 28px rgba(0,0,0,.17),inset 0 1px 0 rgba(255,255,255,.055);
+}
+nav button{background:rgba(255,255,255,.045)!important;border-color:rgba(255,255,255,.10)!important;box-shadow:none!important;border-radius:14px!important}
+nav button[aria-current=page]{
+ color:var(--g)!important;background:linear-gradient(145deg,rgba(93,255,176,.17),rgba(255,255,255,.075))!important;
+ box-shadow:inset 0 -3px 0 var(--g),inset 0 1px 0 rgba(255,255,255,.18),0 0 20px rgba(93,255,176,.075)!important;
+ animation:nav-select .32s ease-out both;
+}
+.live{
+ background:linear-gradient(135deg,rgba(16,54,38,.68),rgba(3,25,17,.58))!important;
+ border-color:rgba(112,255,191,.58)!important;
+ box-shadow:0 12px 35px rgba(0,0,0,.16),0 0 24px rgba(93,255,176,.10),inset 0 1px 0 rgba(255,255,255,.18)!important;
+}
+.live b{animation:score-glow 3s ease-in-out infinite;letter-spacing:-.035em}
+#app> .card{animation:none}
+#app> .card:nth-child(2){animation:none}
+#app> .card:nth-child(3){animation:none}
+#app> .card:nth-child(4){animation:none}
+#app> .card:nth-child(5){animation:none}
+#app> .card:nth-child(n+6){animation:none}
+#app .card img{border:1px solid rgba(255,255,255,.28);box-shadow:0 8px 24px rgba(0,0,0,.15);transition:transform .35s ease,filter .35s ease}
+.bar{position:relative;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.27),0 3px 10px rgba(0,0,0,.12);transition:width .65s cubic-bezier(.2,.75,.25,1)}
+.bar::after{content:"";position:absolute;inset:0;width:28%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);transform:translateX(-150%);animation:bar-sheen 3.8s ease-in-out infinite}
+details{border-top-color:rgba(216,255,240,.10)!important}summary{transition:color .2s ease}
+summary:active{color:var(--g)}
+#timer-overlay{
+ background:radial-gradient(ellipse at 17% 8%,rgba(20,70,48,.80),transparent 56%),radial-gradient(ellipse at 90% 28%,rgba(42,27,77,.70),transparent 55%),rgba(3,12,9,.96)!important;
+}
+#timer-overlay .timer-card{
+ position:relative;isolation:isolate;overflow:hidden;
+ background:linear-gradient(145deg,rgba(6,28,20,.78),rgba(2,15,12,.72) 50%,rgba(9,32,27,.78))!important;
+ border:1px solid rgba(120,234,255,.48)!important;
+ box-shadow:0 24px 70px rgba(0,0,0,.30),0 0 42px rgba(79,216,255,.09),inset 0 1px 0 rgba(255,255,255,.18)!important;
+ -webkit-backdrop-filter:blur(28px) saturate(160%)!important;backdrop-filter:blur(28px) saturate(160%)!important;
+ animation:glass-enter .65s cubic-bezier(.2,.75,.25,1) both;
+}
+#timer-overlay .timer-card::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(120deg,rgba(255,255,255,.06),transparent 35%,rgba(79,216,255,.035) 72%,transparent)}
+.timer-display{animation:timer-breathe 3.4s ease-in-out infinite;letter-spacing:-.045em}
+#timer-start:not(:disabled){animation:start-glow 2.7s ease-in-out infinite}
+#timer-again{border-radius:18px!important;background:rgba(245,250,255,.14)!important;box-shadow:0 10px 28px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.22)!important;animation:glass-enter .35s ease-out both}
+.toast{background:rgba(93,255,176,.86)!important;color:#032014!important;border:1px solid rgba(255,255,255,.35);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 12px 32px rgba(0,0,0,.24);animation:toast-in .24s cubic-bezier(.2,.8,.2,1) both}
+.page-brand-footer img{filter:drop-shadow(0 12px 22px rgba(0,0,0,.24));animation:none}
+.glass-ripple{position:absolute;z-index:0;width:12px;height:12px;border-radius:50%;pointer-events:none;background:rgba(255,255,255,.33);transform:translate(-50%,-50%) scale(0);animation:glass-ripple .58s ease-out forwards}
+@keyframes glass-enter{from{opacity:0;transform:translateY(10px) scale(.992);filter:blur(3px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes nav-select{from{box-shadow:inset 0 -1px 0 var(--g),0 0 0 rgba(93,255,176,0)}to{box-shadow:inset 0 -3px 0 var(--g),0 0 16px rgba(93,255,176,.08)}}
+@keyframes score-glow{0%,100%{text-shadow:0 0 16px rgba(93,255,176,.22)}50%{text-shadow:0 0 26px rgba(93,255,176,.42)}}
+@keyframes timer-breathe{0%,100%{filter:drop-shadow(0 0 7px rgba(79,216,255,.12));transform:scale(1)}50%{filter:drop-shadow(0 0 17px rgba(79,216,255,.25));transform:scale(1.012)}}
+@keyframes start-glow{0%,100%{box-shadow:0 7px 24px rgba(40,220,150,.10),inset 0 1px 0 rgba(255,255,255,.25)}50%{box-shadow:0 7px 28px rgba(40,220,150,.22),inset 0 1px 0 rgba(255,255,255,.30)}}
+@keyframes bar-sheen{0%,45%{transform:translateX(-150%)}75%,100%{transform:translateX(450%)}}
+@keyframes toast-in{from{opacity:0;transform:translate(-50%,9px) scale(.97)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
+@keyframes brand-in{from{opacity:.55;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@keyframes glass-ripple{to{opacity:0;transform:translate(-50%,-50%) scale(13)}}
+@media(hover:hover) and (pointer:fine){
+ .card:hover{transform:translateY(-2px);border-color:rgba(224,255,242,.30)!important;box-shadow:0 20px 50px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.17)!important}
+ .card:hover::before{opacity:1}
+ button:hover{transform:translateY(-1px);background:linear-gradient(145deg,rgba(255,255,255,.21),rgba(255,255,255,.075))!important;border-color:rgba(231,255,246,.38)!important;box-shadow:0 10px 26px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.29)!important}
+ button.pri:hover{background:linear-gradient(135deg,rgba(93,255,176,.37),rgba(70,202,158,.18))!important}
+ .card img:hover{filter:saturate(1.035);transform:scale(1.006)}
+}
+@media(max-width:520px){
+ .card{border-radius:19px!important}
+ header{background:rgba(4,17,12,.52)!important}
+ .st button{border-radius:13px!important}
+ nav{padding-top:7px}
+ #timer-again{right:10px;bottom:calc(82px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 20px)}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+}
+
+
+/* Ajustes de estabilidade, responsividade e Liquid Glass */
+html{scroll-behavior:smooth}
+body::before{background-attachment:fixed;transform:translateZ(0);will-change:auto}
+body::after{transform:translateZ(0)}
+@media(min-width:900px){
+  main{max-width:1440px;padding:22px 28px 28px}
+  #app{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
+  #app>.card{margin:0;min-width:0}
+  #app>.card:first-child{grid-column:1/-1}
+  .page-brand-footer{max-width:640px;margin:18px auto 18px;padding:8px 14px}
+  .page-brand-footer img{width:min(100%,280px)}
+  nav{left:50%;right:auto;transform:translateX(-50%);width:min(100%,900px);border:1px solid rgba(225,255,243,.18);border-bottom:0;border-radius:18px 18px 0 0}
+  body{padding-bottom:100px}
+}
+@media(min-width:1400px){main{max-width:1600px}#app{grid-template-columns:repeat(3,minmax(0,1fr))}#app>.card:first-child{grid-column:1/-1}}
+@media(max-width:899px){main{width:100%;padding:12px 14px}#app>.card{width:100%}}
+/* O botão de nova contagem fica no fluxo da página, depois do conteúdo, sem cobrir cartões nem navegação. */
+#timer-again,#timer-again.show{position:relative;inset:auto;display:none;width:fit-content;max-width:calc(100% - 28px);margin:12px 14px 18px auto;z-index:2;transform:none;}
+#timer-again.show{display:flex;align-items:center;justify-content:center}
+@media(min-width:900px){#timer-again,#timer-again.show{margin:12px max(28px,calc((100vw - 1440px)/2 + 28px)) 18px auto}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
 </style></head><body>
 <header><div class="logo"><b>RABBITECH</b><small>PLACAR BIOGLOW</small></div><div class="tm" id="tm"></div></header>
 <section id="timer-overlay" aria-label="Cronômetro da partida">
@@ -234,4 +405,23 @@ document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)r
  else if(d.del){const t=team(d.del);if(confirm('Excluir a equipe "'+t.name+'" e TODAS as suas partidas salvas? Isso não pode ser desfeito.')){DB.teams=DB.teams.filter(x=>x.id!==t.id);DB.matches=DB.matches.filter(m=>m.teamId!==t.id);if(DB.currentTeamId===t.id)DB.currentTeamId=DB.teams[0]?.id||null;save();render()}}
  else if(d.dm){if(confirm('Excluir esta partida? Isso não pode ser desfeito.')){DB.matches=DB.matches.filter(m=>m.id!==d.dm);save();render()}}});
 render();
+
+
+// Luz dinâmica discreta que acompanha o toque/mouse nos painéis de vidro.
+document.addEventListener('pointermove',e=>{
+ const panel=e.target.closest('.card,header,.timer-card');
+ if(!panel)return;
+ const r=panel.getBoundingClientRect();
+ panel.style.setProperty('--gl-x',Math.max(0,Math.min(100,(e.clientX-r.left)/r.width*100))+'%');
+ panel.style.setProperty('--gl-y',Math.max(0,Math.min(100,(e.clientY-r.top)/r.height*100))+'%');
+},{passive:true});
+// Ripple curto nos botões que não são reconstruídos imediatamente.
+document.addEventListener('pointerdown',e=>{
+ const b=e.target.closest('button');
+ if(!b||b.disabled)return;
+ const r=b.getBoundingClientRect(),dot=document.createElement('span');
+ dot.className='glass-ripple';dot.style.left=(e.clientX-r.left)+'px';dot.style.top=(e.clientY-r.top)+'px';
+ b.appendChild(dot);setTimeout(()=>dot.remove(),650);
+},{passive:true});
+
 </script></body></html>
